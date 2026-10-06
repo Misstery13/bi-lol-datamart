@@ -1,9 +1,9 @@
 """
 ENTREGABLE 2 - LIMPIEZA Y TRANSFORMACION
-Lee el CSV descargado de Kaggle (Oracle's Elixir 2024) y genera tres archivos
+Lee el Excel descargado de Kaggle (Oracle's Elixir 2024) y genera tres archivos
 limpios que luego se cargan en PostgreSQL mediante \\copy.
 
-Requisitos:  pip install pandas
+Requisitos:  pip install pandas openpyxl
 Uso:         python 02_limpieza.py
 
 Salidas:
@@ -15,7 +15,7 @@ Salidas:
 import os
 import pandas as pd
 
-ARCHIVO = "2024_LoL_esports_match_data_from_OraclesElixir.csv"
+ARCHIVO = "2024_LoL_esports_match_data_from_OraclesElixir.xlsx"
 SALIDA = "salida"
 MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio",
          "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"]
@@ -24,7 +24,7 @@ DIAS = ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"
 os.makedirs(SALIDA, exist_ok=True)
 
 # ---------------------------------------------------------------- 1. LECTURA
-df = pd.read_csv(ARCHIVO, low_memory=False)
+df = pd.read_excel(ARCHIVO)
 print(f"Filas originales: {len(df):,}  |  Columnas: {df.shape[1]}")
 
 # ------------------------------------------------- 2. TIPOS DE DATOS CORRECTOS
@@ -57,6 +57,7 @@ equipos = equipos.drop_duplicates(subset=["gameid", "teamname"])
 print(f"Duplicados eliminados: {antes - len(equipos)}")
 
 # ------------------------------------------- 5. NORMALIZAR TEXTO Y CATEGORIAS
+equipos["split"] = equipos["split"].fillna("Sin split")
 for col in ["league", "split", "teamname", "side"]:
     equipos[col] = equipos[col].astype(str).str.strip()
 
@@ -95,6 +96,10 @@ for col in ["dragones", "barones", "torres", "primera_sangre",
 nulos_oro = partidas["oro_dif_15"].isna().sum()
 print(f"Registros sin oro_dif_15 (datos parciales): {nulos_oro:,} "
       f"({nulos_oro / len(partidas):.1%})")
+
+# Entero con nulos (Int64): sin esto pandas escribe 1729.0 y PostgreSQL lo rechaza
+for col in partidas.select_dtypes("number").columns:
+    partidas[col] = partidas[col].astype("Int64")
 
 partidas["fecha"] = partidas["fecha_hora"].dt.date
 partidas = partidas.drop(columns=["fecha_hora"])

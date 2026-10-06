@@ -1,5 +1,6 @@
 # Dataset original de Kaggle: pesa demasiado para GitHub (limite de 100 MB por archivo)
 *.csv
+*.xlsx
 !salida/.gitkeep
 
 # Salidas de la limpieza: se regeneran con 02_limpieza.py
@@ -30,3 +31,6 @@ desktop.ini
 *.dump
 *.sql.gz
 *.backup
+
+# Archivos temporales de Office
+~$*

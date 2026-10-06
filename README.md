@@ -21,7 +21,7 @@ competitivas de League of Legends 2024 (Oracle's Elixir), publicado en Kaggle.
 ## Requisitos
 
 - Docker y Docker Compose
-- Python 3.10 o superior con `pandas` (`pip install pandas`)
+- Python 3.10 o superior con `pandas` y `openpyxl` (`pip install pandas openpyxl`)
 
 ---
 
@@ -95,6 +95,19 @@ Mockup publicado en GitHub Pages:
 **https://misstery13.github.io/bi-lol-datamart/dashboard/**
 
 Los valores son ilustrativos; cada componente indica la vista o función SQL que lo alimenta.
+
+---
+
+## Evidencias de ejecución
+
+| Captura | Contenido |
+|---|---|
+| [docker_contenedor.png](capturas/docker_contenedor.png) | Contenedor `bi-postgres` en Docker Desktop |
+| [01_limpieza.png](capturas/01_limpieza.png) | Salida de `02_limpieza.py` |
+| [02_carga.png](capturas/02_carga.png) | Salida de `03_carga.sql` |
+| [03_validaciones_conteo_integridad.png](capturas/03_validaciones_conteo_integridad.png) | Validaciones V1 a V3 |
+| [04_validaciones_nulos_totales.png](capturas/04_validaciones_nulos_totales.png) | Validaciones V4 y V5 |
+| [05_vistas_funciones.png](capturas/05_vistas_funciones.png) | Consultas a vistas y funciones |
 
 ---
 
