@@ -5,7 +5,7 @@ Proyecto de la asignatura **Inteligencia de Negocios** (UPSE, Carrera de Ingenie
 Construcción de un Data Mart en PostgreSQL a partir del dataset público de partidas
 competitivas de League of Legends 2024 (Oracle's Elixir), publicado en Kaggle.
 
-**Autores:** Jean Carlos Lino Sánchez · Diana Lucía Melena Santander
+**Autora:** Diana Lucía Melena Santander
 
 ---
 
@@ -15,9 +15,6 @@ competitivas de League of Legends 2024 (Oracle's Elixir), publicado en Kaggle.
 - **Origen primario:** [Oracle's Elixir](https://oracleselixir.com)
 - **Período:** temporada competitiva 2024
 - **Granularidad original:** 12 filas por partida (10 de jugador y 2 de resumen por equipo)
-
-El CSV **no está versionado** en este repositorio por su tamaño. Descárgalo de Kaggle
-y colócalo en la raíz del proyecto antes de ejecutar la limpieza.
 
 ---
 
@@ -53,6 +50,10 @@ docker compose exec postgres psql -U bi_user -d bi_database -f /proyecto/05_vist
 Para apagar el entorno: `docker compose down`
 (los datos persisten en el volumen `postgres_data`; usar `down -v` para borrarlos).
 
+Contenedor `bi-postgres` en ejecución dentro del proyecto `bi-lol-datamart`:
+
+![Contenedor en Docker Desktop](capturas/docker_contenedor.png)
+
 ### Conexión
 
 | Parámetro | Valor |
@@ -82,7 +83,8 @@ Para apagar el entorno: `docker compose down`
 │   ├── index.html
 │   ├── styles.css
 │   └── app.js
-└── docs/                     Documentos de los entregables (Word)
+├── docs/                     Documentos de los entregables (Word)
+└── capturas/                 Evidencias de ejecución
 ```
 
 ---
