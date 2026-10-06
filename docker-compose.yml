@@ -1,0 +1,23 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: bi-postgres
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_USER: bi_user
+      POSTGRES_PASSWORD: bi_password
+      POSTGRES_DB: bi_database
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      # La carpeta del proyecto queda visible dentro del contenedor en /proyecto.
+      # Esto permite que psql lea los scripts .sql y los CSV generados por
+      # 02_limpieza.py sin tener que copiarlos manualmente.
+      - ./:/proyecto
+
+volumes:
+  postgres_data:

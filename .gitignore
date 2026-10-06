@@ -1,0 +1,32 @@
+# Dataset original de Kaggle: pesa demasiado para GitHub (limite de 100 MB por archivo)
+*.csv
+!salida/.gitkeep
+
+# Salidas de la limpieza: se regeneran con 02_limpieza.py
+salida/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+
+# Entorno y credenciales
+.env
+*.env.local
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editores
+.vscode/
+.idea/
+*.swp
+
+# Volcados de base de datos
+*.dump
+*.sql.gz
+*.backup
