@@ -83,7 +83,7 @@ Contenedor `bi-postgres` en ejecución dentro del proyecto `bi-lol-datamart`:
 │   ├── index.html
 │   ├── styles.css
 │   └── app.js
-├── docs/                     Documentos de los entregables (Word)
+├── docs/                     Documentos de los entregables (Word y PDF)
 └── capturas/                 Evidencias de ejecución
 ```
 
