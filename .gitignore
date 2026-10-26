@@ -34,3 +34,9 @@ desktop.ini
 
 # Archivos temporales de Office
 ~$*
+
+# Configuracion local de Claude Code
+.claude/
+
+# Guion personal del video (no se publica)
+docs/entregable3/guion_video.md

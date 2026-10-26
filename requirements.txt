@@ -1,0 +1,5 @@
+pandas
+openpyxl
+psycopg2-binary
+streamlit>=1.40
+pyarrow<22  # funciona tanto con NumPy 1.x como 2.x

@@ -114,3 +114,31 @@ GROUP BY ld.lado;
 SELECT MIN(t.fecha) AS desde, MAX(t.fecha) AS hasta, COUNT(DISTINCT t.fecha) AS dias
 FROM hecho_partida_equipo h
 JOIN dim_tiempo t ON t.id_tiempo = h.id_tiempo;
+
+-- ---------------------------------------------------------------------
+-- V6. COHERENCIA ENTRE DATOS ORIGINALES Y DATOS CARGADOS
+-- Compara el staging (salida de 02_limpieza.py) contra las tablas de hechos.
+-- El archivo original trae 12 filas por partida: 12 276 filas / 12 = 1 023
+-- partidas, que deben coincidir con las partidas del hecho.
+-- ---------------------------------------------------------------------
+SELECT 'partidas (equipo-partida)' AS control,
+       (SELECT COUNT(*) FROM stg_partidas)         AS origen,
+       (SELECT COUNT(*) FROM hecho_partida_equipo) AS cargado
+UNION ALL
+SELECT 'partidas unicas',
+       (SELECT COUNT(DISTINCT gameid) FROM stg_partidas),
+       (SELECT COUNT(DISTINCT gameid) FROM hecho_partida_equipo)
+UNION ALL
+SELECT 'registros de draft',
+       (SELECT COUNT(*) FROM stg_draft),
+       (SELECT COUNT(*) FROM hecho_draft)
+UNION ALL
+SELECT 'victorias',
+       (SELECT SUM(victoria) FROM stg_partidas),
+       (SELECT SUM(victoria) FROM hecho_partida_equipo)
+UNION ALL
+SELECT 'kills totales',
+       (SELECT SUM(kills) FROM stg_partidas),
+       (SELECT SUM(kills) FROM hecho_partida_equipo);
+
+-- Las dos columnas deben ser iguales en todas las filas.

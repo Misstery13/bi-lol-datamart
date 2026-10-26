@@ -31,6 +31,26 @@ JOIN dim_parche  p  ON p.id_parche = h.id_parche
 JOIN dim_lado    ld ON ld.id_lado  = h.id_lado;
 
 -- =====================================================================
+-- VISTA BASE DEL DRAFT: aplana hecho_draft con sus dimensiones
+-- Permite filtrar el metajuego por liga, split, fechas y parche
+-- =====================================================================
+CREATE OR REPLACE VIEW vw_draft AS
+SELECT d.id_draft,
+       d.gameid,
+       t.fecha,
+       l.liga, l.split, l.es_playoff,
+       e.nombre_equipo AS equipo,
+       p.parche,
+       c.campeon,
+       d.tipo, d.posicion, d.victoria
+FROM hecho_draft d
+JOIN dim_tiempo  t ON t.id_tiempo  = d.id_tiempo
+JOIN dim_liga    l ON l.id_liga    = d.id_liga
+JOIN dim_equipo  e ON e.id_equipo  = d.id_equipo
+JOIN dim_parche  p ON p.id_parche  = d.id_parche
+JOIN dim_campeon c ON c.id_campeon = d.id_campeon;
+
+-- =====================================================================
 -- KPI 1 - TASA DE VICTORIA POR EQUIPO
 -- Alimenta: tarjeta KPI, tabla de detalle y grafico de barras
 -- =====================================================================
@@ -114,7 +134,7 @@ LANGUAGE sql AS $$
     ORDER BY tasa_victoria DESC;
 $$;
 
--- Ejemplo:  SELECT * FROM fn_tasa_victoria('LCK', '2024-01-01', '2024-06-30');
+-- Ejemplo:  SELECT * FROM fn_tasa_victoria('LCK', '2024-01-01', '2024-02-13');
 
 -- =====================================================================
 -- FUNCION 2 - Top de campeones por presencia en un parche
@@ -133,7 +153,7 @@ LANGUAGE sql AS $$
     LIMIT p_limite;
 $$;
 
--- Ejemplo:  SELECT * FROM fn_top_campeones('14.10', 15);
+-- Ejemplo:  SELECT * FROM fn_top_campeones('14.02', 15);
 
 -- =====================================================================
 -- FUNCION 3 - Evolucion mensual de un equipo
